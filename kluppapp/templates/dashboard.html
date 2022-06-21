@@ -10,6 +10,8 @@
         <meta name="author" content="">
         <title>KLU Placement Portal</title>
         <link href="{% static 'dashboard.css' %}" rel="stylesheet">
+        {% block css %}
+        {% endblock css %}
     </head>
     <body>
         <div class="navbar">
@@ -37,7 +39,7 @@
                 <p>Home</p>
               </div>
             </a>
-            <a href="#">
+            <a href="{% url 'kluppapp:attendanceChoice' %}">
               <div class="nav-left-links">
                 <i>{% bs_icon 'clock-fill' size='1.2em' %}</i>
                 <p>Attendance Register</p>
@@ -49,10 +51,90 @@
                 <p>Home</p>
               </div>
             </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
           </div>
 
           <div class="nav-right-conatiner">
-            
+            {% block content %}
+
+            {% endblock content %}
           </div>
         </div>
     </body>

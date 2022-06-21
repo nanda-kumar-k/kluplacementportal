@@ -5,3 +5,6 @@ def dashboard(request):
 
 def login(request):
     return render(request, 'login.html')
+
+def attendanceChoice(request):
+    return render(request, 'attendanceChoice.html')
