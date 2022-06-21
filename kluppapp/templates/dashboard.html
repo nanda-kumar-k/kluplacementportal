@@ -1,0 +1,60 @@
+{% load static %}
+{% load bootstrap_icons %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>KLU Placement Portal</title>
+        <link href="{% static 'dashboard.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="navbar">
+            <hr>
+            <div class="navbar-header">
+              <img src="{% static 'images/logo9.png' %}" alt="logo" >
+              <h2>KLU Placement Portal</h2>
+              <p>2000031797</p>
+            </div>
+            <div class="nav">
+              <div class="nav-logo">
+                <p>KLU PP</p>
+              </div>
+              <div class="logout">
+                {% bs_icon 'person-rolodex' size='1.5em' %}<a href="#"> Logout</a>
+              </div>
+            </div>
+        </div>
+        <div class="nav-body-conatiner">
+
+          <div class="nav-left-container">
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-fill' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'clock-fill' size='1.2em' %}</i>
+                <p>Attendance Register</p>
+              </div>
+            </a>
+            <a href="#">
+              <div class="nav-left-links">
+                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
+                <p>Home</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-right-conatiner">
+            
+          </div>
+        </div>
+    </body>
+
+</html>
