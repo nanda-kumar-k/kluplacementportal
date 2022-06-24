@@ -1,0 +1,63 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'courseslist.css' %}">
+{% endblock css %}
+{% block content %}
+    <div class="sl-container">
+        <div class="sl-title">
+            <p>Faculty Course Sections</p>
+        </div>
+        <div class="sl-list-courses">
+            <table>
+                <tr>
+                    <th id="sno">#</th>
+                    <th id="cc"><p>Coursecode</p></th>
+                    <th id="sec"><p>Section</p></th>
+                    <th id="deg"><p>Degree</p></th>
+                    <th id="stuls"><p>Studentlist</p></th>
+                    <th id="pa"><p>POST Attendance</p></th>
+                    <th id="mp"><p>MARKS POSTING</p></th>
+                </tr>
+                <tr>
+                    <td id="sno"><p>1</p></td>
+                    <td id="cc"><p>C234d1</p></td>
+                    <td id="sec"><p>1</p></td>
+                    <td id="deg"><p>Btech CSE</p></td>
+                    <td id="stuls"><p><a href="">Student List</a></p></td>
+                    <td id="pa">
+                        <p><a href="#">1-2-Hour</a></p>
+                        <p><a href="">3-4-Hour</a></p>
+                        <p><a href="">5-6-Hour</a></p>
+                        <p><a href="">7-8-Hour</a></p>
+                    </td>
+                    <td id="mp">
+                        <p><a href="">Sem in-1</a></p>
+                        <p><a href="">Sem in-2</a></p>
+                        <p><a href="">Lab exam</a></p>
+                        <p><a href="">Assignment</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="sno"><p>1</p></td>
+                    <td id="cc"><p>C234d1</p></td>
+                    <td id="sec"><p>1</p></td>
+                    <td id="deg"><p>Btech CSE</p></td>
+                    <td id="stuls"><p><a href="">Student List</a></p></td>
+                    <td id="pa">
+                        <p><a href="#">1-2-Hour</a></p>
+                        <p><a href="">3-4-Hour</a></p>
+                        <p><a href="">5-6-Hour</a></p>
+                        <p><a href="">7-8-Hour</a></p>
+                    </td>
+                    <td id="mp">
+                        <p><a href="">Sem in-1</a></p>
+                        <p><a href="">Sem in-2</a></p>
+                        <p><a href="">Lab exam</a></p>
+                        <p><a href="">Assignment</a></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

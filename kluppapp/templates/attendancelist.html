@@ -1,0 +1,54 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'attendancelist.css' %}">
+{% endblock css %}
+{% block content %}
+    <div class="al-conatiner">
+        <div class="al-title">
+             <p>Section-1 Attendance Register </p>
+        </div>
+        <div class="al-student-list">
+            <form>
+                <table>
+                    <tr>
+                        <th id="sno">#</th>
+                        <th id="id">Rollno</th>
+                        <th id="name">Name</th>
+                        <th id="checkbox">Absents</th>
+                    </tr>
+                    
+                        <tr>
+                            <td id="sno"><p>1</p></td>
+                            <td id="id"><p>2000031797</p></td>
+                            <td id="name"><p>Nanda Kumar K</p></td>
+                            <td id="checkbox"><input type="checkbox" name="id"></td>
+                        </tr>
+                        <tr>
+                            <td id="sno"><p>1</p></td>
+                            <td id="id"><p>2000031797</p></td>
+                            <td id="name"><p>Nanda Kumar K</p></td>
+                            <td id="checkbox"><input type="checkbox" name="id"></td>
+                        </tr>
+                        <tr>
+                            <td id="sno"><p>1</p></td>
+                            <td id="id"><p>2000031797</p></td>
+                            <td id="name"><p>Nanda Kumar K</p></td>
+                            <td id="checkbox"><input type="checkbox" name="id"></td>
+                        </tr>
+                        <tr>
+                            <td id="sno"><p>1</p></td>
+                            <td id="id"><p>2000031797</p></td>
+                            <td id="name"><p>Nanda Kumar K</p></td>
+                            <td id="checkbox"><input type="checkbox" name="id"></td>
+                        </tr>
+                </table>
+                <div class="al-form-btn">
+                    <button type="submit" style="background-color: rgb(105, 169, 243);">Save</button>
+                    <button>Cancle</button>
+                    <button  type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
