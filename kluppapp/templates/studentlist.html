@@ -1,0 +1,41 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'studentlist.css' %}">
+{% endblock css %}
+{% block content %}
+<div class="sl-conatiner">
+    <div class="sl-title">
+        <p>Section-1 Student List</p>
+    </div>
+    <div class="sl-student-list">
+        <table>
+            <tr>
+                <th id="sno">#</th>
+                <th id="id">Rollno</th>
+                <th id="name">Name</th>
+            </tr>
+            <tr>
+                <td id="sno"><p>1</p></td>
+                <td id="id"><p>200031797</p></td>
+                <td id="name"><p>Nanda Kumar K</p></td>
+            </tr>
+            <tr>
+                <td id="sno"><p>1</p></td>
+                <td id="id"><p>200031797</p></td>
+                <td id="name"><p>Nanda Kumar K</p></td>
+            </tr>
+            <tr>
+                <td id="sno"><p>1</p></td>
+                <td id="id"><p>200031797</p></td>
+                <td id="name"><p>Nanda Kumar K</p></td>
+            </tr>
+            <tr>
+                <td id="sno"><p>1</p></td>
+                <td id="id"><p>200031797</p></td>
+                <td id="name"><p>Nanda Kumar K</p></td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock content %}
