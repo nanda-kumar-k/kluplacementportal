@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'kluplacementportal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'klupp',
+        'NAME': 'klpp',
         'USER': 'root',
         'PASSWORD': 'mVre9392',
         'HOST': '127.0.0.1',
