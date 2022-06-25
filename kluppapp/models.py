@@ -21,6 +21,7 @@ class Faculty(models.Model):
 class Student(models.Model):
     student_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     student_name = models.CharField(max_length=200)
+    student_username = models.CharField(max_length=200, unique=True)
     student_email = models.EmailField()
     degree = models.CharField(max_length=50)
     
