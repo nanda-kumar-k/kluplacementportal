@@ -1,7 +1,6 @@
-from pyexpat import model
 from django.db import models
 import uuid
-
+from django.utils.timezone import now
 
 class Courses(models.Model):
     course_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -63,7 +62,7 @@ class StudentCourses(models.Model):
 class StudentAttendace(models.Model):
     s_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     s_course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    date = models.DateField(default=now)
     hrs_1_2 = models.BooleanField(default=False)
     hrs_3_4 = models.BooleanField(default=False)
     hrs_5_6 = models.BooleanField(default=False)

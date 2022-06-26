@@ -15,26 +15,13 @@
                 <th id="id">Rollno</th>
                 <th id="name">Name</th>
             </tr>
-            <tr>
-                <td id="sno"><p>1</p></td>
-                <td id="id"><p>200031797</p></td>
-                <td id="name"><p>Nanda Kumar K</p></td>
-            </tr>
-            <tr>
-                <td id="sno"><p>1</p></td>
-                <td id="id"><p>200031797</p></td>
-                <td id="name"><p>Nanda Kumar K</p></td>
-            </tr>
-            <tr>
-                <td id="sno"><p>1</p></td>
-                <td id="id"><p>200031797</p></td>
-                <td id="name"><p>Nanda Kumar K</p></td>
-            </tr>
-            <tr>
-                <td id="sno"><p>1</p></td>
-                <td id="id"><p>200031797</p></td>
-                <td id="name"><p>Nanda Kumar K</p></td>
-            </tr>
+            {% for i in data %}
+                <tr>
+                    <td id="sno"><p>{{ forloop.counter }}</p></td>
+                    <td id="id"><p>{{ i.student_username }}</p></td>
+                    <td id="name"><p>{{ i.student_name }}</p></td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
 </div>
