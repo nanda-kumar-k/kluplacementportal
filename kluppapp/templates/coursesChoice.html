@@ -1,7 +1,7 @@
 {% extends 'dashboard.html' %}
 {% load static %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'attendancechoice.css' %}">
+<link rel="stylesheet" href="{% static 'coursesChoice.css' %}">
 {% endblock css %}
 {% block content %}
     <div class="ac-container">
@@ -9,29 +9,30 @@
             <div class="ac-header">
                 <h2>Attendance Register</h2>
             </div>
-            <form>
+            <form method="post" action="{% url 'kluppapp:coursesChoice' %}">
                 <p>Academicyear</p>
+                {% csrf_token %}
                 <select name="Academicyear">
-                    <option value="Select Academic Year">Select Academic Year</option>
-                    <option value="2022-2023">2022-2023</option>
-                    <option value="2021-2022">2021-2022</option>
-                    <option value="2020-2019">2020-2019</option>
+                    <option value="Select Academic Year" >Select Academic Year</option>
+                    <option value="2022-2023" >2022-2023</option>
+                    <option value="2021-2022" >2021-2022</option>
+                    <!-- <option value="2020-2019">2020-2019</option>
                     <option value="2019-2018">2019-2018</option>
                     <option value="2018-2017">2018-2017</option>
                     <option value="2017-2016">2017-2016</option>
                     <option value="2016-2015">2016-2015</option>
                     <option value="2015-2014">2015-2014</option>
-                    <option value="2014-2013">2014-2013</option>
+                    <option value="2014-2013">2014-2013</option> -->
                 </select>
                 <p>Semesterid</p>
                 <select name="Semesterid">
                     <option value="Select Semester">Select Semester</option>
-                    <option value="Odd Sem">Odd Sem</option>
+                    <option value="Odd Sem" >Odd Sem</option>
                     <option value="Even Sem">Even Sem</option>
-                    <option value="Summer Term">Summer Term</option>
+                    <option value="Summer Term" >Summer Term</option>
                 </select>
                 <p>Date-month-year</p>
-                <input type="date" name="Date">
+                <input type="date" name="date">
                 <div class="ac-bt-option">
                     <button type="submit" style="margin-left: 7.5vw;">Submit</button>
                     <button type="reset" id="reset">Reset</button>

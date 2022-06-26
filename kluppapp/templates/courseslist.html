@@ -19,44 +19,27 @@
                     <th id="pa"><p>POST Attendance</p></th>
                     <th id="mp"><p>MARKS POSTING</p></th>
                 </tr>
-                <tr>
-                    <td id="sno"><p>1</p></td>
-                    <td id="cc"><p>C234d1</p></td>
-                    <td id="sec"><p>1</p></td>
-                    <td id="deg"><p>Btech CSE</p></td>
-                    <td id="stuls"><p><a href="">Student List</a></p></td>
-                    <td id="pa">
-                        <p><a href="#">1-2-Hour</a></p>
-                        <p><a href="">3-4-Hour</a></p>
-                        <p><a href="">5-6-Hour</a></p>
-                        <p><a href="">7-8-Hour</a></p>
-                    </td>
-                    <td id="mp">
-                        <p><a href="">Sem in-1</a></p>
-                        <p><a href="">Sem in-2</a></p>
-                        <p><a href="">Lab exam</a></p>
-                        <p><a href="">Assignment</a></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="sno"><p>1</p></td>
-                    <td id="cc"><p>C234d1</p></td>
-                    <td id="sec"><p>1</p></td>
-                    <td id="deg"><p>Btech CSE</p></td>
-                    <td id="stuls"><p><a href="">Student List</a></p></td>
-                    <td id="pa">
-                        <p><a href="#">1-2-Hour</a></p>
-                        <p><a href="">3-4-Hour</a></p>
-                        <p><a href="">5-6-Hour</a></p>
-                        <p><a href="">7-8-Hour</a></p>
-                    </td>
-                    <td id="mp">
-                        <p><a href="">Sem in-1</a></p>
-                        <p><a href="">Sem in-2</a></p>
-                        <p><a href="">Lab exam</a></p>
-                        <p><a href="">Assignment</a></p>
-                    </td>
-                </tr>
+                {% for i in data %}
+                    <tr>
+                        <td id="sno"><p>{{ forloop.counter }}</p></td>
+                        <td id="cc"><p>{{ i.course_code }}</p></td>
+                        <td id="sec"><p>{{ i.f_section }}</p></td>
+                        <td id="deg"><p>{{ i.f_degree }}</p></td>
+                        <td id="stuls"><p><a href="">Student List</a></p></td>
+                        <td id="pa">
+                            <p><a href="#">1-2-Hour</a></p>
+                            <p><a href="">3-4-Hour</a></p>
+                            <p><a href="">5-6-Hour</a></p>
+                            <p><a href="">7-8-Hour</a></p>
+                        </td>
+                        <td id="mp">
+                            <p><a href="">Sem in-1</a></p>
+                            <p><a href="">Sem in-2</a></p>
+                            <p><a href="">Lab exam</a></p>
+                            <p><a href="">Assignment</a></p>
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
