@@ -1,9 +1,11 @@
+from pyexpat import model
 from django.db import models
 import uuid
 
 
 class Courses(models.Model):
     course_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    course_code = models.CharField(max_length=50, default=None)
     course_name = models.TextField()
     
     def __str__(self):
@@ -31,6 +33,10 @@ class Student(models.Model):
 class FacultyCourses(models.Model):
     f_id = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     f_course_id= models.ForeignKey(Courses, on_delete=models.CASCADE)
+    f_section = models.CharField(max_length=20, default=None)
+    course_sem = models.CharField(max_length=20, default=None)
+    course_year = models.CharField(max_length=20, default=None)
+    f_degree = models.CharField(max_length=50, default=None)
     
     def __str__(self):
         return f'{self.f_id.faculty_username} Profile'
@@ -39,14 +45,16 @@ class FacultyCourses(models.Model):
 class StudentCourses(models.Model):
     s_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     s_course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    course_taken = models.IntegerField()
+    course_sem = models.CharField(max_length=20, default=None)
+    course_year = models.CharField(max_length=20, default=None)
     course_teaching = models.ForeignKey(Faculty, on_delete=models.CASCADE)
-    PPE_in_1_marks = models.IntegerField()
-    PPE_in_2_marks = models.IntegerField()
-    PPE_in_3_marks = models.IntegerField()
-    PPE_in_4_marks = models.IntegerField()
-    PPE_in_5_marks = models.IntegerField()
-    End_exam_marks = models.IntegerField()
+    s_section = models.CharField(max_length=20, default=None)
+    PPE_in_1_marks = models.CharField(max_length=10,default=0)
+    PPE_in_2_marks = models.CharField(max_length=10,default=0)
+    PPE_in_3_marks = models.CharField(max_length=10,default=0)
+    PPE_in_4_marks = models.CharField(max_length=10,default=0)
+    PPE_in_5_marks = models.CharField(max_length=10,default=0)
+    End_exam_marks = models.CharField(max_length=10,default=0)
     
     
     def __str__(self):

@@ -36,13 +36,23 @@
                         </div>
                     </div>
                     <div class="login-body">
-                        <form>
+                        <form method="post", action="/">
+                            {% csrf_token %}
                             <p>Username</p>
                             <input type="text" name="username" id="username">
                             <br>
                             <p>Password</p>
                             <input type="password" name="password" id="password">
                             <br>
+                            {% if messages %}
+                              {% for message in messages %}
+                                 {% if message.tags == 'error' %}
+                                  <div style="height: 40px;width: 320px;color: darkred">
+                                    <strong>{{message}}</strong>
+                                  </div>
+                                 {% endif %}
+                              {% endfor %}
+                            {% endif %}
                             <p id="forgot">Forgot your password?</p>
                             <br>
                             <br>
