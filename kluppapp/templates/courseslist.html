@@ -25,12 +25,12 @@
                         <td id="cc"><p>{{ i.course_code }}</p></td>
                         <td id="sec"><p>{{ i.f_section }}</p></td>
                         <td id="deg"><p>{{ i.f_degree }}</p></td>
-                        <td id="stuls"><p><a href="">Student List</a></p></td>
+                        <td id="stuls"><p><a href="{% url 'kluppapp:studentlist' i.f_course_id_id i.f_section %}">Student List</a></p></td>
                         <td id="pa">
-                            <p><a href="#">1-2-Hour</a></p>
-                            <p><a href="">3-4-Hour</a></p>
-                            <p><a href="">5-6-Hour</a></p>
-                            <p><a href="">7-8-Hour</a></p>
+                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '1-2' %}">1-2-Hour</a></p>
+                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '3-4' %}">3-4-Hour</a></p>
+                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '5-6' %}">5-6-Hour</a></p>
+                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '7-8' %}">7-8-Hour</a></p>
                         </td>
                         <td id="mp">
                             <p><a href="">Sem in-1</a></p>

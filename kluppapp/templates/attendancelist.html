@@ -9,7 +9,8 @@
              <p>Section-1 Attendance Register </p>
         </div>
         <div class="al-student-list">
-            <form>
+            <form action="" method="post">
+                {% csrf_token %}
                 <table>
                     <tr>
                         <th id="sno">#</th>
@@ -17,31 +18,14 @@
                         <th id="name">Name</th>
                         <th id="checkbox">Absents</th>
                     </tr>
-                    
+                    {% for i in data %}
                         <tr>
-                            <td id="sno"><p>1</p></td>
-                            <td id="id"><p>2000031797</p></td>
-                            <td id="name"><p>Nanda Kumar K</p></td>
-                            <td id="checkbox"><input type="checkbox" name="id"></td>
+                            <td id="sno"><p>{{ forloop.counter }}</p></td>
+                            <td id="id"><p>{{ i.student_username }}</p></td>
+                            <td id="name"><p>{{ i.student_name }}</p></td>
+                            <td id="checkbox"><input type="checkbox" name="checks[]" value="{{ i.student_username }}"></td>
                         </tr>
-                        <tr>
-                            <td id="sno"><p>1</p></td>
-                            <td id="id"><p>2000031797</p></td>
-                            <td id="name"><p>Nanda Kumar K</p></td>
-                            <td id="checkbox"><input type="checkbox" name="id"></td>
-                        </tr>
-                        <tr>
-                            <td id="sno"><p>1</p></td>
-                            <td id="id"><p>2000031797</p></td>
-                            <td id="name"><p>Nanda Kumar K</p></td>
-                            <td id="checkbox"><input type="checkbox" name="id"></td>
-                        </tr>
-                        <tr>
-                            <td id="sno"><p>1</p></td>
-                            <td id="id"><p>2000031797</p></td>
-                            <td id="name"><p>Nanda Kumar K</p></td>
-                            <td id="checkbox"><input type="checkbox" name="id"></td>
-                        </tr>
+                    {% endfor %}
                 </table>
                 <div class="al-form-btn">
                     <button type="submit" style="background-color: rgb(105, 169, 243);">Save</button>
