@@ -19,21 +19,26 @@
             <div class="navbar-header">
               <img src="{% static 'images/logo9.png' %}" alt="logo" >
               <h2>KLU Placement Portal</h2>
-              <p>2000031797</p>
+              {% for k in data %}
+                {% if forloop.last %}
+                    <b><p style="font-size: 20px;">{{ k }}</p></b>
+                {% endif %}
+              {% endfor  %}
             </div>
+            
             <div class="nav">
               <div class="nav-logo">
                 <p>KLU PP</p>
               </div>
               <div class="logout">
-                {% bs_icon 'person-rolodex' size='1.5em' %}<a href="#"> Logout</a>
+                {% bs_icon 'person-rolodex' size='1.5em' %}<a href="{% url 'kluppapp:logout' %}"> Logout</a>
               </div>
             </div>
         </div>
         <div class="nav-body-conatiner">
 
           <div class="nav-left-container">
-            <a href="#">
+            <a href=" {% url 'kluppapp:dashboard' %} ">
               <div class="nav-left-links">
                 <i>{% bs_icon 'house-fill' size='1.2em' %}</i>
                 <p>Home</p>
@@ -42,31 +47,7 @@
             <a href="{% url 'kluppapp:coursesChoice' %}">
               <div class="nav-left-links">
                 <i>{% bs_icon 'clock-fill' size='1.2em' %}</i>
-                <p>courses Register</p>
-              </div>
-            </a>
-            <a href="#">
-              <div class="nav-left-links">
-                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
-                <p>section</p>
-              </div>
-            </a>
-            <a href="{% url 'kluppapp:courseslist' %}">
-              <div class="nav-left-links">
-                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
                 <p>courses</p>
-              </div>
-            </a>
-            <a href="#">
-              <div class="nav-left-links">
-                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
-                <p>marks</p>
-              </div>
-            </a>
-            <a href="#">
-              <div class="nav-left-links">
-                <i>{% bs_icon 'house-door' size='1.2em' %}</i>
-                <p>studentlist</p>
               </div>
             </a>
           </div>

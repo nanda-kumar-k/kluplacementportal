@@ -19,28 +19,32 @@
                     <th id="pa"><p>POST Attendance</p></th>
                     <th id="mp"><p>MARKS POSTING</p></th>
                 </tr>
-                {% for i in data %}
-                    <tr>
-                        <td id="sno"><p>{{ forloop.counter }}</p></td>
-                        <td id="cc"><p>{{ i.course_code }}</p></td>
-                        <td id="sec"><p>{{ i.f_section }}</p></td>
-                        <td id="deg"><p>{{ i.f_degree }}</p></td>
-                        <td id="stuls"><p><a href="{% url 'kluppapp:studentlist' i.f_course_id_id i.f_section %}">Student List</a></p></td>
-                        <td id="pa">
-                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '1-2' %}">1-2-Hour</a></p>
-                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '3-4' %}">3-4-Hour</a></p>
-                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '5-6' %}">5-6-Hour</a></p>
-                            <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '7-8' %}">7-8-Hour</a></p>
-                        </td>
-                        <td id="mp">
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-1'  %}">PPE in 1 marks</a></p>
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-2'  %}">PPE in 2 marks</a></p>
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-3'  %}">PPE in 3 marks</a></p>
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-4'  %}">PPE in 4 marks</a></p>
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-5'  %}">PPE in 5 marks</a></p>
-                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'end-exam'  %}">End exam marks</a></p>
-                        </td>
-                    </tr>
+                {% for k in data %}
+                    {% if forloop.first %}
+                        {% for i in k %}
+                            <tr>
+                                <td id="sno"><p>{{ forloop.counter }}</p></td>
+                                <td id="cc"><p>{{ i.course_code }}</p></td>
+                                <td id="sec"><p>{{ i.f_section }}</p></td>
+                                <td id="deg"><p>{{ i.f_degree }}</p></td>
+                                <td id="stuls"><p><a href="{% url 'kluppapp:studentlist' i.f_course_id_id i.f_section %}">Student List</a></p></td>
+                                <td id="pa">
+                                    <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '1-2' %}">1-2-Hour</a></p>
+                                    <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '3-4' %}">3-4-Hour</a></p>
+                                    <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '5-6' %}">5-6-Hour</a></p>
+                                    <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '7-8' %}">7-8-Hour</a></p>
+                                </td>
+                                <td id="mp">
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-1'  %}">PPE in 1 marks</a></p>
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-2'  %}">PPE in 2 marks</a></p>
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-3'  %}">PPE in 3 marks</a></p>
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-4'  %}">PPE in 4 marks</a></p>
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-5'  %}">PPE in 5 marks</a></p>
+                                    <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'end-exam'  %}">End exam marks</a></p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
             </table>
         </div>

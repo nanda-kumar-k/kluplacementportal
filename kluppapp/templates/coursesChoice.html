@@ -5,7 +5,18 @@
 {% endblock css %}
 {% block content %}
     <div class="ac-container">
-        <div class="ac-choice-container">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <div class="ac-choice-container" style="height: 50vh ;">
+                        <div style="height: 40px;width: 320px;color: green; font-size: 18px;">
+                        <strong>{{message}}</strong>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="ac-choice-container">
+            {% endif %}
             <div class="ac-header">
                 <h2>Attendance Register</h2>
             </div>
@@ -33,13 +44,20 @@
                 </select>
                 <p>Date-month-year</p>
                 <input type="date" name="date">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'info' %}
+                        <div style="height: 10px;width: 320px;color: darkred; text-align: center;margin-top: 5px;">
+                        <strong>{{message}}</strong>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <div class="ac-bt-option">
                     <button type="submit" style="margin-left: 7.5vw;">Submit</button>
                     <button type="reset" id="reset">Reset</button>
                 </div>
             </form>
-            
-
         </div>
     </div>
 {% endblock content %}

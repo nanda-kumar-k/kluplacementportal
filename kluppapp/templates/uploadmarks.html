@@ -18,13 +18,17 @@
                     <th id="name">Name</th>
                     <th id="checkbox">MARKS</th>
                 </tr>
-                {% for i in data %}
-                <tr>
-                    <td id="sno"><p>{{ forloop.counter }}</p></td>
-                    <td id="id"><p>{{ i.student_username }}</p></td>
-                    <td id="name"><p>{{ i.student_name }}</p></td>
-                    <td id="text"><input type="text" name="checks[]" value="{{ i.marks }}"></td>
-                </tr>
+                {% for k in data %}
+                    {% if forloop.first %}
+                        {% for i in k %}
+                            <tr>
+                                <td id="sno"><p>{{ forloop.counter }}</p></td>
+                                <td id="id"><p>{{ i.student_username }}</p></td>
+                                <td id="name"><p>{{ i.student_name }}</p></td>
+                                <td id="text"><input type="text" name="checks[]" value="{{ i.marks }}"></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
             </table>
             <div class="um-form-btn">
