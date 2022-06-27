@@ -5,10 +5,15 @@ from django.utils.timezone import now
 
 current_user = ''
 date_Choice = ''
-
+current_user_id = ''
 
 def dashboard(request):
-    return render(request, 'studentlist.html')
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
+    data = []
+    data.append("temp")
+    data.append(current_user_id)
+    return render(request, 'dashboard.html', {'data': data})
 
 def login(request):
     if request.method == "POST":
@@ -16,8 +21,9 @@ def login(request):
         pwd = request.POST['password']
         check = models.Faculty.objects.filter(faculty_username=user, faculty_password=pwd).values()
         if check:
-            global current_user
+            global current_user, current_user_id
             current_user = check[0]['faculty_id']
+            current_user_id = user
             return redirect('kluppapp:dashboard')
         else:
             messages.error(request, f"Invalid UserName and Password...! Try Again ")
@@ -26,57 +32,63 @@ def login(request):
     return render(request, 'login.html')
 
 def coursesChoice(request):
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
+    data = []
+    data.append("temp")
+    data.append(current_user_id)
     if request.method == "POST":
         global date_Choice
         date =  request.POST['date']
         academicyear = request.POST['Academicyear']
         semesterid = request.POST['Semesterid']
         date_Choice = request.POST['date']
-        print("daeteeteeeeeeeeeeteteeeeee")
-        print(date_Choice)
         if date and academicyear and semesterid :
             f_all_courses= models.FacultyCourses.objects.filter(
                 f_id=current_user,course_sem=semesterid,course_year=academicyear).values()
             data = []
+            temp_data = []
             for tc in f_all_courses:
                 temp = tc
                 course = models.Courses.objects.filter(course_id=tc['f_course_id_id']).values()[0]
                 temp['course_name'] = course['course_name']
                 temp['course_code'] = course['course_code']
-                data.append(temp)
+                temp_data.append(temp)
+            data.append(temp_data)
+            data.append(current_user_id)
             return render(request, 'courseslist.html', {'data':data})
         else:
             messages.info(request, f"All fileds are required...!")
-            return render(request, 'coursesChoice.html')
-    return render(request, 'coursesChoice.html')
+            return render(request, 'coursesChoice.html', {'data':data})
+    
+    return render(request, 'coursesChoice.html', {'data':data})
 
 
 
 
 def attendancelist(request,c_id, s_id, hr_id):
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
     stu_list = models.StudentCourses.objects.filter(s_section=s_id,s_course_id=c_id).values()
     if request.method == "POST":
         present =  request.POST.getlist('checks[]')
-        print(present)
-        print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
         if hr_id == '1-2':
-            print(now)
-            check = models.StudentAttendace.objects.filter(s_course_id=c_id,hrs_1_2=False, date=date_Choice).values()
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id, date=date_Choice).values()
             if check :
                 i = 0
                 for j in stu_list :
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     print(pora['student_username'] )
                     if pora['student_username'] in present:
-                        print('yes')
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_1_2 = True
                         update.save()
                     else:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_1_2 = False 
-                        update.save() 
-                return HttpResponse('done1')  
+                        update.save()
+                messages.success(request, f"Attendance updated successfully...!") 
+                return redirect('kluppapp:coursesChoice')  
             else:
                 i = 0
                 c_get = models.Courses.objects.get(course_id=c_id)
@@ -84,27 +96,29 @@ def attendancelist(request,c_id, s_id, hr_id):
                     s_get = models.Student.objects.get(student_id =j['s_id_id'])
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_1_2=True)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_1_2=True,date=date_Choice)
                     else:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_1_2=False)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_1_2=False,date=date_Choice)
                     create.save()
-                return HttpResponse('done2')
+                messages.success(request, f"Attendance updated successfully...!")
+                return redirect('kluppapp:coursesChoice')
             
         elif hr_id == '3-4':
-            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice,hrs_3_4=False).values()
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice).values()
             if check :
                 i = 0
                 for j in stu_list :
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_3_4 = True
                         update.save()
                     else:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_3_4 = False 
-                        update.save() 
-                return HttpResponse('done1')  
+                        update.save()
+                messages.success(request, f"Attendance updated successfully...!") 
+                return redirect('kluppapp:coursesChoice')  
             else:
                 i = 0
                 c_get = models.Courses.objects.get(course_id=c_id)
@@ -112,26 +126,28 @@ def attendancelist(request,c_id, s_id, hr_id):
                     s_get = models.Student.objects.get(student_id =j['s_id_id'])
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_3_4=True)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_3_4=True,date=date_Choice)
                     else:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_3_4=False)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_3_4=False,date=date_Choice)
                     create.save()
-                return HttpResponse('done2')
+                messages.success(request, f"Attendance updated successfully...!")
+                return redirect('kluppapp:coursesChoice')
         elif hr_id == '5-6':
-            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice,hrs_5_6=False).values()
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice).values()
             if check :
                 i = 0
                 for j in stu_list :
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_5_6 = True
                         update.save()
                     else:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_5_6 = False
-                        update.save()  
-                return HttpResponse('done1')  
+                        update.save() 
+                messages.success(request, f"Attendance updated successfully...!") 
+                return redirect('kluppapp:coursesChoice')  
             else:
                 i = 0
                 c_get = models.Courses.objects.get(course_id=c_id)
@@ -139,26 +155,28 @@ def attendancelist(request,c_id, s_id, hr_id):
                     s_get = models.Student.objects.get(student_id =j['s_id_id'])
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_5_6=True)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_5_6=True,date=date_Choice)
                     else:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_5_6=False)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_5_6=False,date=date_Choice)
                     create.save()
-                return HttpResponse('done2')
+                messages.success(request, f"Attendance updated successfully...!")
+                return redirect('kluppapp:coursesChoice')
         elif hr_id == '7-8':
-            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice,hrs_7_8=False).values()
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,date=date_Choice).values()
             if check :
                 i = 0
                 for j in stu_list :
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_7_8 = True
                         update.save()
                     else:
-                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'])
+                        update = models.StudentAttendace.objects.get(s_id=j['s_id_id'],date=date_Choice,s_course_id=c_id)
                         update.hrs_7_8 = False  
                         update.save()
-                return HttpResponse('done1')  
+                messages.success(request, f"Attendance updated successfully...!")
+                return redirect('kluppapp:coursesChoice') 
             else:
                 i = 0
                 c_get = models.Courses.objects.get(course_id=c_id)
@@ -166,17 +184,63 @@ def attendancelist(request,c_id, s_id, hr_id):
                     s_get = models.Student.objects.get(student_id =j['s_id_id'])
                     pora = models.Student.objects.filter(student_id=j['s_id_id']).values()[0]
                     if pora['student_username'] in present:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_7_8=True)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_7_8=True,date=date_Choice)
                     else:
-                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_7_8=False)
+                        create = models.StudentAttendace(s_id=s_get,s_course_id=c_get,hrs_7_8=False,date=date_Choice)
                     create.save()
-                return HttpResponse('done2')
+                messages.success(request, f"Attendance updated successfully...!")
+                return redirect('kluppapp:coursesChoice')
              
     else:
         data = []
-        for ts in stu_list :
-            stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
-            data.append(stu)
+        temp_data = []
+        if hr_id == '1-2':
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,hrs_1_2=False, date=date_Choice).values()
+            for ts in stu_list :
+                if check :
+                    find = models.StudentAttendace.objects.filter(s_id_id=ts['s_id_id'],s_course_id=c_id,date=date_Choice).values()[0]
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    stu['pora'] = find['hrs_1_2']
+                    temp_data.append(stu)
+                else:
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    temp_data.append(stu)
+        elif hr_id == '3-4':
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,hrs_1_2=False, date=date_Choice).values()
+            for ts in stu_list :
+                if check :
+                    find = models.StudentAttendace.objects.filter(s_id_id=ts['s_id_id'],s_course_id=c_id,date=date_Choice).values()[0]
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    stu['pora'] = find['hrs_3_4']
+                    temp_data.append(stu)
+                else:
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    temp_data.append(stu)
+        elif hr_id == '5-6':
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,hrs_1_2=False, date=date_Choice).values()
+            for ts in stu_list :
+                if check :
+                    find = models.StudentAttendace.objects.filter(s_id_id=ts['s_id_id'],s_course_id=c_id,date=date_Choice).values()[0]
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    stu['pora'] = find['hrs_5_6']
+                    temp_data.append(stu)
+                else:
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    temp_data.append(stu)
+        elif hr_id == '7-8':
+            check = models.StudentAttendace.objects.filter(s_course_id=c_id,hrs_1_2=False, date=date_Choice).values()
+            for ts in stu_list :
+                if check :
+                    find = models.StudentAttendace.objects.filter(s_id_id=ts['s_id_id'],s_course_id=c_id,date=date_Choice).values()[0]
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    stu['pora'] = find['hrs_7_8']
+                    temp_data.append(stu)
+                else:
+                    stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                    temp_data.append(stu)
+        
+        data.append(temp_data)
+        data.append(current_user_id)
         return render(request, 'attendancelist.html' , {'data':data})
     return render(request, 'attendancelist.html')
 
@@ -186,74 +250,125 @@ def courseslist(request):
 
 
 def uploadmarks(request,c_id, s_id, ex_id):
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
     stu_list = models.StudentCourses.objects.filter(s_section=s_id,s_course_id=c_id).values()
     if request.method == "POST":
         if ex_id == 'ppe-1':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.PPE_in_1_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"PPE in 1 marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
         elif ex_id == 'ppe-2':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.PPE_in_2_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"PPE in 2 marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
         elif ex_id == 'ppe-3':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.PPE_in_3_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"PPE in 3 marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
         if ex_id == 'ppe-4':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.PPE_in_4_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"PPE in 4 marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
         if ex_id == 'ppe-5':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.PPE_in_5_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"PPE in 5 marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
         if ex_id == 'end-exam':
             i = 0
             for ts in stu_list:
-                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'],s_section=s_id,s_course_id=c_id)
                 d = request.POST.getlist('checks[]')
                 update.End_exam_marks= d[i]
                 update.save()
                 i = i+1
-            return HttpResponse("doneeeee")
+            messages.success(request, f"End Exam marks updated successfully...!")
+            return redirect('kluppapp:coursesChoice')
     else:
         data = []
-        for ts in stu_list :
-            stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
-            data.append(stu)
+        temp_data = []
+        if ex_id == 'ppe-1':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['PPE_in_1_marks']
+                temp_data.append(stu)
+        elif ex_id == 'ppe-2':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['PPE_in_2_marks']
+                temp_data.append(stu)
+        elif ex_id == 'ppe-3':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['PPE_in_3_marks']
+                temp_data.append(stu)
+        elif ex_id == 'ppe-4':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['PPE_in_4_marks']
+                temp_data.append(stu)
+        elif ex_id == 'ppe-5':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['PPE_in_5_marks']
+                temp_data.append(stu)
+        if ex_id == 'end-exam':
+            for ts in stu_list :
+                stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+                stu['marks'] = ts['End_exam_marks']
+                temp_data.append(stu)
+    
+        data.append(temp_data)
+        data.append(current_user_id)
         return render(request, 'uploadmarks.html' , {'data':data})
     return render(request, 'uploadmarks.html')
 
 def studentlist(request, c_id, s_id):
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
     stu_list = models.StudentCourses.objects.filter(s_section=s_id,s_course_id=c_id).values()
     data = []
+    temp_data = []
     for ts in stu_list :
         stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
-        data.append(stu)
+        temp_data.append(stu)
+    data.append(temp_data)
+    data.append(current_user_id)
     return render(request, 'studentlist.html', {'data': data})
+
+def logout(request):
+    global current_user, current_user_id, date_Choice
+    current_user = ''
+    current_user_id = ''
+    date_Choice = ''
+    return redirect('kluppapp:login')

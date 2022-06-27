@@ -15,12 +15,16 @@
                 <th id="id">Rollno</th>
                 <th id="name">Name</th>
             </tr>
-            {% for i in data %}
-                <tr>
-                    <td id="sno"><p>{{ forloop.counter }}</p></td>
-                    <td id="id"><p>{{ i.student_username }}</p></td>
-                    <td id="name"><p>{{ i.student_name }}</p></td>
-                </tr>
+            {% for k in data %}
+                {% if forloop.first %}
+                    {% for i in k %}
+                        <tr>
+                            <td id="sno"><p>{{ forloop.counter }}</p></td>
+                            <td id="id"><p>{{ i.student_username }}</p></td>
+                            <td id="name"><p>{{ i.student_name }}</p></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
         </table>
     </div>
