@@ -1,9 +1,7 @@
-from ctypes.wintypes import HPALETTE
 from django.shortcuts import render, redirect, HttpResponse
 from . import models
 from django.contrib import messages
 from django.utils.timezone import now
-from datetime import date
 
 current_user = ''
 date_Choice = ''
