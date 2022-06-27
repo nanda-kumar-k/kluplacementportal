@@ -78,4 +78,3 @@ class StudentAttendace(models.Model):
     
     
     
-
