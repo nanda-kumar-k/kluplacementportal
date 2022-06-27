@@ -33,10 +33,12 @@
                             <p><a href="{% url 'kluppapp:attendancelist' i.f_course_id_id i.f_section '7-8' %}">7-8-Hour</a></p>
                         </td>
                         <td id="mp">
-                            <p><a href="">Sem in-1</a></p>
-                            <p><a href="">Sem in-2</a></p>
-                            <p><a href="">Lab exam</a></p>
-                            <p><a href="">Assignment</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-1'  %}">PPE in 1 marks</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-2'  %}">PPE in 2 marks</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-3'  %}">PPE in 3 marks</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-4'  %}">PPE in 4 marks</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'ppe-5'  %}">PPE in 5 marks</a></p>
+                            <p><a href="{% url 'kluppapp:uploadmarks' i.f_course_id_id i.f_section 'end-exam'  %}">End exam marks</a></p>
                         </td>
                     </tr>
                 {% endfor %}

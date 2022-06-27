@@ -1,3 +1,4 @@
+from ctypes.wintypes import HPALETTE
 from django.shortcuts import render, redirect, HttpResponse
 from . import models
 from django.contrib import messages
@@ -184,7 +185,71 @@ def attendancelist(request,c_id, s_id, hr_id):
 def courseslist(request):
     return render(request, 'courseslist.html')
 
-def uploadmarks(request):
+
+
+def uploadmarks(request,c_id, s_id, ex_id):
+    stu_list = models.StudentCourses.objects.filter(s_section=s_id,s_course_id=c_id).values()
+    if request.method == "POST":
+        if ex_id == 'ppe-1':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.PPE_in_1_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+        elif ex_id == 'ppe-2':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.PPE_in_2_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+        elif ex_id == 'ppe-3':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.PPE_in_3_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+        if ex_id == 'ppe-4':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.PPE_in_4_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+        if ex_id == 'ppe-5':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.PPE_in_5_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+        if ex_id == 'end-exam':
+            i = 0
+            for ts in stu_list:
+                update = models.StudentCourses.objects.get(s_id=ts['s_id_id'])
+                d = request.POST.getlist('checks[]')
+                update.End_exam_marks= d[i]
+                update.save()
+                i = i+1
+            return HttpResponse("doneeeee")
+    else:
+        data = []
+        for ts in stu_list :
+            stu = models.Student.objects.filter(student_id=ts['s_id_id']).values()[0]
+            data.append(stu)
+        return render(request, 'uploadmarks.html' , {'data':data})
     return render(request, 'uploadmarks.html')
 
 def studentlist(request, c_id, s_id):

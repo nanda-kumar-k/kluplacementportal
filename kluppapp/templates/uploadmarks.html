@@ -9,7 +9,8 @@
          <p>Section-1 Sem in-1 marks upload </p>
     </div>
     <div class="um-student-list">
-        <form>
+        <form method="post" action="">
+            {% csrf_token %}
             <table>
                 <tr>
                     <th id="sno">#</th>
@@ -17,24 +18,14 @@
                     <th id="name">Name</th>
                     <th id="checkbox">MARKS</th>
                 </tr>
+                {% for i in data %}
                 <tr>
-                    <td id="sno"><p>1</p></td>
-                    <td id="id"><p>2000031797</p></td>
-                    <td id="name"><p>Nanda Kumar K</p></td>
-                    <td id="text"><input type="text" name="id"></td>
+                    <td id="sno"><p>{{ forloop.counter }}</p></td>
+                    <td id="id"><p>{{ i.student_username }}</p></td>
+                    <td id="name"><p>{{ i.student_name }}</p></td>
+                    <td id="text"><input type="text" name="checks[]" value="{{ i.marks }}"></td>
                 </tr>
-                <tr>
-                    <td id="sno"><p>1</p></td>
-                    <td id="id"><p>2000031797</p></td>
-                    <td id="name"><p>Nanda Kumar K</p></td>
-                    <td id="text"><input type="text" name="id"></td>
-                </tr>
-                <tr>
-                    <td id="sno"><p>1</p></td>
-                    <td id="id"><p>2000031797</p></td>
-                    <td id="name"><p>Nanda Kumar K</p></td>
-                    <td id="text"><input type="text" name="id"></td>
-                </tr>
+                {% endfor %}
             </table>
             <div class="um-form-btn">
                 <button type="submit" style="background-color: rgb(105, 169, 243);">Save</button>
