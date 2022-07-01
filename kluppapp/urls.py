@@ -13,5 +13,6 @@ urlpatterns = [
     path('courseslist/', views.courseslist, name='courseslist'),
     path('uploadmarks/<uuid:c_id>/<slug:s_id>/<str:ex_id>/', views.uploadmarks, name='uploadmarks'),
     path('studentlist/<uuid:c_id>/<slug:s_id>/', views.studentlist, name='studentlist'),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('prediction/', views.Prediction, name="prediction")
 ]
