@@ -1,0 +1,39 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'prediction.css' %}">
+{% endblock css %}
+{% block content %}
+    <div class="ac-container">
+        <div class="ac-choice-container"> 
+            <div class="ac-header">
+                <h2>Prediction of Salary</h2>
+            </div>
+            <form method="post" action="">
+                {% csrf_token %}
+                <p>Enter ssc marks</p>
+                <input type="text" name="ssc" />
+                <p>Enter Inter marks</p>
+                <input type="text" name="inter_marks" />
+                <p>Enter Btech marks</p>
+                <input type="text" name="bteach_marks" />
+                <p>Enter Etest marks</p>
+                <input type="text" name="etest" />
+                <div class="ac-bt-option">
+                    <button type="submit" style="margin-left: 7.5vw;">Submit</button>
+                    <button type="reset" id="reset">Reset</button>
+                </div>
+                {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                                <br>
+                                <div style="height: 40px;width: 500px;color: green; font-size: 18px;">
+                                <strong>{{message}}</strong>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock content %}

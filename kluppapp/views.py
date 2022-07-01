@@ -1,7 +1,16 @@
+from unicodedata import numeric
 from django.shortcuts import render, redirect, HttpResponse
 from . import models
 from django.contrib import messages
 from django.utils.timezone import now
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import numpy as np
+from sklearn import metrics
+from django.templatetags.static import static
 
 current_user = ''
 date_Choice = ''
@@ -372,3 +381,45 @@ def logout(request):
     current_user_id = ''
     date_Choice = ''
     return redirect('kluppapp:login')
+
+from sklearn.utils.validation import check_array
+
+def Prediction(request):
+    if not current_user or not current_user_id :
+        return redirect('kluppapp:login')
+    if request.method == "POST":
+        ssc =  float(request.POST['ssc'])
+        inter_marks = float(request.POST['inter_marks'])
+        bteach_marks = float(request.POST['bteach_marks'])
+        etest = float(request.POST['etest'])
+        
+        url = static("placement_data.csv") 
+        data = pd.read_csv("/media/placement_data.csv")
+        # data=pd.read_csv(r"C:\Users\mvr_n\Downloads\placement_data.csv")
+        # data=pd.read_csv(url)
+        print(data.dtypes)
+        data.dropna(inplace=True)
+        data=data.drop(['sl_no','gender','spcial_t','status'],axis=1)
+        #print(data.head())
+        '''sns.heatmap(data.isnull())
+        x=data.drop('salry',axis=1)
+        y=data["salary"]
+        x_train,x_test,y_train,y_test=train_test_split(x,y,train_size=0.30)'''
+        x=data.drop('salary',axis=1)
+        #print(x.head())
+        y=data['salary']
+        #print(y.head())
+        x_train,x_test,y_train,y_test=train_test_split(x,y,train_size=0.30)
+        model=LinearRegression()
+        model.fit(x_train,y_train)
+        # X = np.array([s_no]).reshape(-1, 1)
+        # array = check_array(X)
+        # d = check_array(s_no, dtype='numeric').reshape(-1, 1)
+        predictions=model.predict(np.array([ssc,inter_marks,bteach_marks,etest]).reshape(1, -1))
+        #print(predictions)
+        #error=np.sqrt(metrics.mean_absolute_error(y_test,predictions))
+        #print(error)
+        messages.success(request, f"Prediction of the salary is {predictions}") 
+        return render(request, "prediction.html")
+    
+    return render(request, "prediction.html")
