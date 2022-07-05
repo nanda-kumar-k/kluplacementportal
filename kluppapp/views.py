@@ -394,7 +394,7 @@ def Prediction(request):
         etest = float(request.POST['etest'])
         
         url = static("placement_data.csv") 
-        data = pd.read_csv("/media/placement_data.csv")
+        data = pd.read_csv("http://127.0.0.1:8000/media/placement_data.csv")
         # data=pd.read_csv(r"C:\Users\mvr_n\Downloads\placement_data.csv")
         # data=pd.read_csv(url)
         print(data.dtypes)
