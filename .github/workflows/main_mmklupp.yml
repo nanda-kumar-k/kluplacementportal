@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'mmklupp'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AEBC7806827F44D2AF0D1F6D03246CBE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6709D054C26749728AD85176CE20570D }}
